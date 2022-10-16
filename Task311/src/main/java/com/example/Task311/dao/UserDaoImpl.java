@@ -4,6 +4,7 @@ package com.example.Task311.dao;
 import com.example.Task311.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,9 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void addUser(User user) {
         user.setPassword(passwordEncoder().encode(user.getPassword()));
+        if (user != null) {
+            Hibernate.initialize(user.getRoles());
+        }
         entityManager.persist(user);
     }
 
@@ -53,13 +57,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByName(String name) {
-        return entityManager.createQuery("select u FROM User u where u.name = :name", User.class)
+        return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles roles where u.name = :name ", User.class)
                 .setParameter("name", name).getSingleResult();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return entityManager.createQuery("select u FROM User u where u.name = :name", User.class)
+        return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles roles where u.name = :name ", User.class)
                 .setParameter("name", username).getSingleResult();
     }
 

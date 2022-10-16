@@ -1,6 +1,8 @@
 package com.example.Task311.controller;
 
+import com.example.Task311.model.Role;
 import com.example.Task311.model.User;
+import com.example.Task311.service.RoleService;
 import com.example.Task311.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserService userService;
+    private UserService userService;
+    private RoleService roleService;
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/users")
@@ -33,8 +37,10 @@ public class AdminController {
 
     @GetMapping("/users/new")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
+    public String newUser(Model model,
+                          @ModelAttribute("user") User user,
+                          @ModelAttribute("role") Role role) {
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "new";
     }
 
