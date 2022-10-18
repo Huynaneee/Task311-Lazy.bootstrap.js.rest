@@ -4,6 +4,7 @@ import com.example.Task311.model.Role;
 import com.example.Task311.model.User;
 import com.example.Task311.service.RoleService;
 import com.example.Task311.service.UserService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,11 +22,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequestMapping("/admin")
+@Log
 public class AdminController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
@@ -44,7 +47,7 @@ public class AdminController {
 
 
     @PostMapping("/")
-    public String createUser (@ModelAttribute("newUser") User user,
+    public String createUser (@ModelAttribute("new User") User user,
                               @RequestParam(required = false,name = "roles[]") String [] ROLES) {
         Set<Role> roleSet = new HashSet<>();
         if (ROLES == null) {
@@ -86,7 +89,7 @@ public class AdminController {
         return "redirect:";
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/admin")
     public String removeUser(@RequestParam(name = "idDelete") int idDelete) {
         userService.removeUser(idDelete);
         return "redirect:";
