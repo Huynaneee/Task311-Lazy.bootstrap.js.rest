@@ -9,4 +9,6 @@ public interface RoleService {
     void addRole(Role role);
     public List<Role> getAllRoles();
 
+    Role getRoleBtId(int id);
+
 }

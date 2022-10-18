@@ -6,15 +6,19 @@ import com.example.Task311.service.RoleService;
 import com.example.Task311.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -28,54 +32,65 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/users")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String allUsers(Model model) {
+    @GetMapping("")
+    public String allUsers(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("logUser", user);
         model.addAttribute("users", userService.getListUsers());
-        return "users";
+        model.addAttribute("newUser",new User());
+        model.addAttribute("updateUser", new User());
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "admin";
     }
 
-    @GetMapping("/users/new")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String newUser(Model model,
-                          @ModelAttribute("user") User user,
-                          @ModelAttribute("role") Role role) {
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "new";
-    }
 
-    @PostMapping("/users")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String createUser (@ModelAttribute("user") User user) {
+    @PostMapping("/")
+    public String createUser (@ModelAttribute("newUser") User user,
+                              @RequestParam(required = false,name = "roles[]") String [] ROLES) {
+        Set<Role> roleSet = new HashSet<>();
+        if (ROLES == null) {
+            roleSet.add(roleService.getRoleBtId(2));
+        } else  {
+            for (String role: ROLES) {
+                roleSet.add(roleService.getRoleBtId(Integer.parseInt(role)));
+            }
+        }
+        user.setRoles(roleSet);
         userService.addUser(user);
-        return "redirect:/admin/users";
+        return "redirect:";
     }
 
-    @GetMapping("/users/{id}/edit")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String editUser (Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "edit";
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public String updateUser (@RequestParam(required = false, name = "firstNameEdit") String firstNameEdit,
+                              @RequestParam(required = false, name = "lastNameEdit") String lastNameEdit,
+                              @RequestParam(required = false, name = "ageEdit") int ageEdit,
+                              @RequestParam(required = false, name = "emailEdit") String emailEdit,
+                              @RequestParam(required = false, name = "passwordEdit") String passwordEdit,
+                              @RequestParam(required = false, name = "roles[]") String[] ROLES,
+                              @RequestParam(name = "idEdit") int idEdit) {
+        User update = userService.getUserById(idEdit);
+        update.setFirstName(firstNameEdit);
+        update.setLastName(lastNameEdit);
+        update.setAge(ageEdit);
+        update.setEmail(emailEdit);
+        update.setPassword(passwordEdit);
+        Set<Role> roles1 = new HashSet<>();
+        if (ROLES == null) {
+            roles1.add(roleService.getRoleBtId(2));
+        } else {
+            for (String role : ROLES) {
+                roles1.add(roleService.getRoleBtId(Integer.parseInt(role)));
+            }
+        }
+        update.setRoles(roles1);
+        return "redirect:";
     }
 
-    @PutMapping ("/users/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String updateUser (@ModelAttribute("user") User user) {
-        userService.updateUser(user);
-        return "redirect:/admin/users";
+    @DeleteMapping("/")
+    public String removeUser(@RequestParam(name = "idDelete") int idDelete) {
+        userService.removeUser(idDelete);
+        return "redirect:";
     }
 
-    @DeleteMapping("admin/users/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String removeUser(@PathVariable("id") int id) {
-        userService.removeUser(id);
-        return "redirect:/admin/users";
-    }
 
-    @GetMapping("/user_{name}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String showUser(@PathVariable("name") String name, Model model) {
-        model.addAttribute("user", userService.getUserByName(name));
-        return "user";
-    }
 }

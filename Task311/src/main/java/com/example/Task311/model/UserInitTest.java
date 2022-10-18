@@ -34,9 +34,9 @@ public class UserInitTest {
         roles.add(role1);
         roles.add(role2);
 
-        User admin = new User("Andrey", "Chernysow", "sda@yandex.ri", "101", Collections.singleton(role2));
-        User user = new User("Misha", "Galustyan", "p2p@gmail.ci", "102", Collections.singleton(role1));
-        User testUser = new User("Luna","Moon","moon21@sda", "100",roles);
+        User admin = new User(firstName, "Chernysow",33, "sda@yandex.ri", "101", Collections.singleton(role2));
+        User user = new User(firstName, "Galustyan",22, "p2p@gmail.ci", "102", Collections.singleton(role1));
+        User testUser = new User(firstName, "Moon",52,"moon21@sda", "100",roles);
 
 
         roleService.addRole(role1);
