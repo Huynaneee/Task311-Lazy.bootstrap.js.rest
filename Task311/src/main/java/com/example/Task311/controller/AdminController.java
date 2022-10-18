@@ -23,12 +23,12 @@ import java.util.Set;
 
 @Controller
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-@RequestMapping("/admin")
+@RequestMapping("admin")
 @Log
 public class AdminController {
 
-    private final UserService userService;
-    private final RoleService roleService;
+    private UserService userService;
+    private RoleService roleService;
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
@@ -47,7 +47,7 @@ public class AdminController {
 
 
     @PostMapping("/")
-    public String createUser (@ModelAttribute("new User") User user,
+    public String createUser (@ModelAttribute("newUser") User user,
                               @RequestParam(required = false,name = "roles[]") String [] ROLES) {
         Set<Role> roleSet = new HashSet<>();
         if (ROLES == null) {
@@ -89,7 +89,7 @@ public class AdminController {
         return "redirect:";
     }
 
-    @DeleteMapping("/admin")
+    @DeleteMapping("/")
     public String removeUser(@RequestParam(name = "idDelete") int idDelete) {
         userService.removeUser(idDelete);
         return "redirect:";

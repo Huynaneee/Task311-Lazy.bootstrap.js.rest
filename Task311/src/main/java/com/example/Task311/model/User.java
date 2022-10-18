@@ -29,13 +29,7 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    public int getAge() {
-        return age;
-    }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     @Column(name = "name")
     private String firstName;
@@ -92,7 +86,13 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+    public int getAge() {
+        return age;
+    }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
     public int getId() {
         return id;
     }
