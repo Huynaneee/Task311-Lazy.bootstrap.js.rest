@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
 
 
-    @Column(name = "name")
+    @Column(name = "firstName")
     private String firstName;
 
     @Column(name = "last_name")
@@ -105,7 +105,7 @@ public class User implements UserDetails {
         return firstName;
     }
 
-    public void setFirstName(String name) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
