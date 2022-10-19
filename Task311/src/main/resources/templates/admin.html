@@ -328,7 +328,7 @@
 
                             <label for="roles" class="font-weight-bolder">Role</label>
                             <div>
-                                <select class="custom select col-sm-4" multiple id="roles" name="roles[]" size="2">
+                                <select class="custom select col-sm-4" multiple id="roles1" name="roles1[]" size="2">
                                     <option th:each="role:${roles}" th:value="${role.getId()}"
                                             th:utext="${role.getRole()}"></option>
                                 </select>

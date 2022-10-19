@@ -63,8 +63,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles roles where u.firstName = :name ", User.class)
-                .setParameter("name", username).getSingleResult();
+        return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles roles where u.email = :email ", User.class)
+                .setParameter("email", username).getSingleResult();
     }
 
     public PasswordEncoder passwordEncoder() {

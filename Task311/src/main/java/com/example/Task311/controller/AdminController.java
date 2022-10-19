@@ -43,12 +43,10 @@ public class AdminController {
 
     @PostMapping("/")
     public String createUser (@ModelAttribute("newUser") User user,
-                              @RequestParam(required = false,name = "roles[]") String [] ROLES) {
+                              @RequestParam(required = false, name = "roles[]1") String [] ROLES) {
         Set<Role> roleSet = new HashSet<>();
-        System.out.println(Arrays.toString(ROLES));
         if (ROLES == null) {
             roleSet.add(roleService.getRoleBtId(2));
-            System.out.println(roleSet);
         } else  {
             for (String role: ROLES) {
                 roleSet.add(roleService.getRoleBtId(Integer.parseInt(role)));
