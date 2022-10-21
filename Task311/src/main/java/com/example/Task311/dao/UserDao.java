@@ -1,7 +1,6 @@
 package com.example.Task311.dao;
 
 import com.example.Task311.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
 

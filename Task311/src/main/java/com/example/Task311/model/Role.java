@@ -3,15 +3,12 @@ package com.example.Task311.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,8 +29,7 @@ public class Role implements GrantedAuthority {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role)) return false;
-        Role role1 = (Role) o;
+        if (!(o instanceof Role role1)) return false;
         return getId().equals(role1.getId()) && Objects.equals(getRole(), role1.getRole()) && getUsers().equals(role1.getUsers());
     }
 

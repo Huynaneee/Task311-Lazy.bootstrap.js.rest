@@ -54,8 +54,7 @@ public class User implements UserDetails {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
+        if (!(o instanceof User user)) return false;
         return getId() == user.getId() && getFirstName().equals(user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getEmail(), user.getEmail()) && getRoles().equals(user.getRoles());
     }
 
@@ -85,9 +84,6 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-    public int getAge() {
-        return age;
     }
 
     public void setAge(int age) {
@@ -174,13 +170,7 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public String getRolesToString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Role role: roles) {
-            stringBuilder.append(role.getRole());
-            stringBuilder.append(" ");
-        }
-
-        return stringBuilder.toString();
+    public int getAge() {
+        return age;
     }
 }

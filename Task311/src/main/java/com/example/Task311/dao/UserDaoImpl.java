@@ -23,9 +23,6 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void addUser(User user) {
         user.setPassword(passwordEncoder().encode(user.getPassword()));
-        if (user != null) {
-            Hibernate.initialize(user.getRoles());
-        }
         entityManager.persist(user);
     }
 

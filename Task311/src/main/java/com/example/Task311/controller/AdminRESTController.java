@@ -1,7 +1,6 @@
 package com.example.Task311.controller;
 
 import com.example.Task311.model.User;
-import com.example.Task311.service.RoleService;
 import com.example.Task311.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,12 +23,12 @@ import java.util.List;
 public class AdminRESTController {
 
     private final UserService userService;
-    private final RoleService roleService;
+
 
     @Autowired
-    public AdminRESTController(UserService userService, RoleService roleService) {
+    public AdminRESTController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
+
     }
 
     @GetMapping("/users")
