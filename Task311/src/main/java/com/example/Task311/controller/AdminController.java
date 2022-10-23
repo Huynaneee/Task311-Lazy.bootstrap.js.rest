@@ -57,7 +57,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-
+@ResponseBody
     @RequestMapping(value = "/", method = RequestMethod.PUT )
     public String updateUser (@RequestParam(required = false, name = "firstNameEdit") String firstNameEdit,
                               @RequestParam(required = false, name = "lastNameEdit") String lastNameEdit,
