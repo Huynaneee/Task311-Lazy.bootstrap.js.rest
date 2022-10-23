@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/admin")
 @Log
 public class AdminController {
 
@@ -28,7 +27,7 @@ public class AdminController {
         this.roleService = roleService;
     }
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("")
+    @GetMapping("/admin")
     public String allUsers(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("logUser", user);
         model.addAttribute("users", userService.getListUsers());
@@ -39,7 +38,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/")
+    @PostMapping("/admin")
     public String createUser (@ModelAttribute("newUser") User user,
                               @RequestParam(required = false, name = "roles[]1") String [] ROLES) {
         Set<Role> roleSet = new HashSet<>();
@@ -56,7 +55,7 @@ public class AdminController {
         return "redirect:/admin";
     }
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @RequestMapping(value = "/", method = RequestMethod.PUT )
+    @RequestMapping(value = "/admin", method = RequestMethod.PUT )
     public String updateUser (@RequestParam(required = false, name = "firstNameEdit") String firstNameEdit,
                               @RequestParam(required = false, name = "lastNameEdit") String lastNameEdit,
                               @RequestParam(required = false, name = "ageEdit") int ageEdit,
@@ -85,7 +84,7 @@ public class AdminController {
         return "redirect:/admin";
     }
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @DeleteMapping("/")
+    @DeleteMapping("/admin")
     public String removeUser(@RequestParam(name = "idDelete") int idDelete) {
         userService.removeUser(idDelete);
         return "redirect:/admin";

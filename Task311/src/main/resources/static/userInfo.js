@@ -21,7 +21,7 @@ function userInfoPage() {
             let htmlPrincipal = `
                 <span class="navbar-brand" href="#">
                 ${user.email} with roles: 
-                ${user.rolesToString}
+                ${user.role}
                 </span> `;
             userBar.append(htmlPrincipal);
         });
