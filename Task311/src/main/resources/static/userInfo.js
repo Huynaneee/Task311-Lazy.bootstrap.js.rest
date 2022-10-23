@@ -14,7 +14,7 @@ function userInfoPage() {
                     <td>${user.lastName}</td>
                     <td>${user.age}</td>
                     <td>${user.email}</td>
-                    <td>${user.rolesToString}</td>
+                    <td>${user.role}</td>
             </tr>)`;
             tableUser.append(htmlUserInfo)
 

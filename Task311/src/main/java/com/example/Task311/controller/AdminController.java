@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequestMapping("/admin")
 @Log
 public class AdminController {
@@ -28,7 +27,7 @@ public class AdminController {
         this.userService = userService;
         this.roleService = roleService;
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("")
     public String allUsers(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("logUser", user);
@@ -39,7 +38,7 @@ public class AdminController {
         return "/admin";
     }
 
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/")
     public String createUser (@ModelAttribute("newUser") User user,
                               @RequestParam(required = false, name = "roles[]1") String [] ROLES) {
@@ -56,8 +55,7 @@ public class AdminController {
         userService.addUser(user);
         return "redirect:/admin";
     }
-
-@ResponseBody
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/", method = RequestMethod.PUT )
     public String updateUser (@RequestParam(required = false, name = "firstNameEdit") String firstNameEdit,
                               @RequestParam(required = false, name = "lastNameEdit") String lastNameEdit,
@@ -86,11 +84,17 @@ public class AdminController {
         userService.addUser(update);
         return "redirect:/admin";
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/")
     public String removeUser(@RequestParam(name = "idDelete") int idDelete) {
         userService.removeUser(idDelete);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/user")
+    public String getUserPage(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("logUser", user);
+        return "user";
     }
 
 

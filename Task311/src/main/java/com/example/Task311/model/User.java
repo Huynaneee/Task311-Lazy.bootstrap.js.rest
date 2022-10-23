@@ -173,4 +173,14 @@ public class User implements UserDetails {
     public int getAge() {
         return age;
     }
+
+    public String getRolesToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role: roles) {
+            stringBuilder.append(role.getRole());
+            stringBuilder.append(" ");
+        }
+
+        return stringBuilder.toString();
+    }
 }
