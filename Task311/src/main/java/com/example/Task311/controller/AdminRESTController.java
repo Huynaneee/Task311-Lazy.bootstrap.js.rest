@@ -20,7 +20,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class AdminRESTController {
 
     private final UserService userService;
@@ -31,13 +30,13 @@ public class AdminRESTController {
         this.userService = userService;
 
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/users")
     public ResponseEntity<List<User>> showAllUsers(){
         List<User> userList = userService.getListUsers();
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/users/{id}")
     public ResponseEntity<User> showUser(@PathVariable Integer id) {
 
@@ -50,7 +49,7 @@ public class AdminRESTController {
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         if (user == null) {
@@ -59,7 +58,7 @@ public class AdminRESTController {
         userService.addUser(user);
         return ResponseEntity.ok(user)  ;
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/users")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         if (user == null) {
@@ -68,7 +67,7 @@ public class AdminRESTController {
         userService.updateUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/users/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable int id) {
         User user = this.userService.getUserById(id);
