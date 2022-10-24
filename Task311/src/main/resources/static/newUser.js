@@ -4,11 +4,11 @@ function newUser() {
     function selectRole(role) {
         let roles = [];
         if (role.indexOf("USER") >= 0) {
-            roles.push({id: 2,
+            roles.push({id: 1,
                 role:'ROLE_USER'});
         }
         if (role.indexOf("ADMIN") >= 0) {
-            roles.push({id: 1,
+            roles.push({id: 2,
                 role: 'ROLE_ADMIN'});
         }
         return roles;

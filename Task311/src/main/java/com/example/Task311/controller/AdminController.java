@@ -70,7 +70,6 @@ public class AdminController {
         update.setAge(ageEdit);
         update.setEmail(emailEdit);
         update.setPassword(passwordEdit);
-        System.out.println(update.getPassword());
         Set<Role> roles1 = new HashSet<>();
         if (ROLES == null) {
             roles1.add(roleService.getRoleBtId(2));

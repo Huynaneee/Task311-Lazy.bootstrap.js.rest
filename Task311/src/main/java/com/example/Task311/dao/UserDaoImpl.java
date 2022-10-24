@@ -29,6 +29,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void updateUser(User user) {
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        System.out.println(user.getPassword());
         entityManager.merge(user);
     }
 
