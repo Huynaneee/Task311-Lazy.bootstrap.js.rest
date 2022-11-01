@@ -20,14 +20,12 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
 
     @Override
-    @Transactional
     public void addUser(User user) {
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         entityManager.persist(user);
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) {
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         System.out.println(user.getPassword());
@@ -35,7 +33,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void removeUser(int id) {
        User user = getUserById(id);
        entityManager.remove(user);
@@ -48,7 +45,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     @SuppressWarnings("unchecked")
     public List<User> getListUsers() {
         return entityManager.createQuery("select u from User u").getResultList();
