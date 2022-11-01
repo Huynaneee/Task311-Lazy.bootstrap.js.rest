@@ -39,7 +39,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public User getUserById(int id) {
         return entityManager.find(User.class, id);
     }
